@@ -10,6 +10,8 @@ services:
       - ./backend:/app
     ports:
       - 8080:8080
+    depends_on:
+      - db
 
   frontend:
     container_name: frontend
@@ -22,6 +24,22 @@ services:
     ports:
       - "3000:3000"
 
+  db:
+    container_name: mysql
+    build:
+      context: .
+      dockerfile: docker/db/Dockerfile
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      TZ: ${TZ}
+    volumes:
+      - mysql-volume:/var/lib/mysql
+
   nginx:
     container_name: nginx
     image: nginx:latest
@@ -29,3 +47,8 @@ services:
       - "80:80"
     volumes:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - backend
+
+volumes:
+  mysql-volume:
