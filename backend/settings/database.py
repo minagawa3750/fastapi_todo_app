@@ -2,7 +2,7 @@ from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine.url import URL
 from sqlalchemy.engine.create import create_engine
 from sqlalchemy.ext.declarative import declarative_base
-from backend.settings.env import Env
+from settings.env import Env
 
 _database_url = URL.create(
     drivername="mysql+pymysql",

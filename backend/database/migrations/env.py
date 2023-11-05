@@ -2,8 +2,10 @@ from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-from backend.settings.env import Env
-from backend.settings.database import Base
+
+from settings.env import Env
+from settings.database import Base  
+
 from sqlalchemy.engine.url import URL
 
 from alembic import context
