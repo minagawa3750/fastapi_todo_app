@@ -6,8 +6,9 @@ load_dotenv()
 
 class Env:
     # データベース
-    MYSQL_USER=os.getenv('MYSQL_USER'),
-    MYSQL_PASSWORD=os.getenv('MYSQL_PASSWORD'),
-    LOCALHOST=os.getenv('LOCALHOST'),
-    MYSQL_DATABASE=os.getenv('MYSQL_DATABASE'),
-    PORT=os.getenv('PORT')
+    MYSQL_USER = os.getenv('MYSQL_USER')
+    MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
+    LOCALHOST = os.getenv('LOCALHOST')
+    MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
+    PORT = os.getenv('PORT')
+    TZ = os.getenv('TZ')

@@ -1,7 +1,7 @@
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.engine.url import URL
 from sqlalchemy.engine.create import create_engine
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from settings.env import Env
 
 _database_url = URL.create(
@@ -9,9 +9,7 @@ _database_url = URL.create(
     username=Env.MYSQL_USER,
     password=Env.MYSQL_PASSWORD,
     host=Env.LOCALHOST,
-    port=Env.PORT,
     database=Env.MYSQL_DATABASE,
-    query={"charset": "utf8"},
 )
 
 Engine = create_engine(_database_url, echo=True)

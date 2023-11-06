@@ -19,11 +19,9 @@ _database_url = URL.create(
     username=Env.MYSQL_USER,
     password=Env.MYSQL_PASSWORD,
     host=Env.LOCALHOST,
-    port=Env.PORT,
     database=Env.MYSQL_DATABASE,
-    query={"charset": "utf8"},
 )
-config.set_main_option("sqlalchemy.url", _database_url)
+config.set_main_option("sqlalchemy.url", str(_database_url))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
