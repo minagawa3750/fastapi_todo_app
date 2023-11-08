@@ -3,25 +3,13 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
-from settings.env import Env
 from settings.database import Base  
-
-from sqlalchemy.engine.url import URL
 
 from alembic import context
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-_database_url = URL.create(
-    drivername="mysql+pymysql",
-    username=Env.MYSQL_USER,
-    password=Env.MYSQL_PASSWORD,
-    host=Env.LOCALHOST,
-    database=Env.MYSQL_DATABASE,
-)
-config.set_main_option("sqlalchemy.url", str(_database_url))
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.

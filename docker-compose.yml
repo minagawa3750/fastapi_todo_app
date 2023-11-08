@@ -25,7 +25,7 @@ services:
       - "3000:3000"
 
   db:
-    container_name: mysql
+    container_name: db
     build:
       context: .
       dockerfile: docker/db/Dockerfile
