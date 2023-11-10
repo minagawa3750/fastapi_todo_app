@@ -3,6 +3,7 @@ from logging.config import fileConfig
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
+from settings.env import Env
 from settings.database import Base  
 
 from alembic import context
@@ -58,6 +59,11 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    config.set_section_option("alembic", "MYSQL_USER", Env.MYSQL_USER)
+    config.set_section_option("alembic", "MYSQL_PASSWORD", Env.MYSQL_PASSWORD)
+    config.set_section_option("alembic", "MYSQL_HOST", Env.MYSQL_HOST)
+    config.set_section_option("alembic", "MYSQL_DATABASE", Env.MYSQL_DATABASE)
+
     connectable = engine_from_config(
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",

@@ -38,7 +38,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      TZ: ${TZ}
+      TZ: ${MYSQL_TZ}
     volumes:
       - mysql-volume:/var/lib/mysql
 

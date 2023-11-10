@@ -8,7 +8,7 @@ class Env:
     # データベース
     MYSQL_USER = os.getenv('MYSQL_USER')
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
-    LOCALHOST = os.getenv('LOCALHOST')
+    MYSQL_HOST = os.getenv('MYSQL_HOST')
     MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
-    PORT = os.getenv('PORT')
-    TZ = os.getenv('TZ')
+    MYSQL_PORT = os.getenv('PORT')
+    MYSQL_TZ = os.getenv('TZ')

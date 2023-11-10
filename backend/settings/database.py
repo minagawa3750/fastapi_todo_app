@@ -8,7 +8,7 @@ _database_url = URL.create(
     drivername="mysql+pymysql",
     username=Env.MYSQL_USER,
     password=Env.MYSQL_PASSWORD,
-    host=Env.LOCALHOST,
+    host=Env.MYSQL_HOST,
     database=Env.MYSQL_DATABASE,
 )
 
