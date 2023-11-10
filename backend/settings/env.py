@@ -10,5 +10,5 @@ class Env:
     MYSQL_PASSWORD = os.getenv('MYSQL_PASSWORD')
     MYSQL_HOST = os.getenv('MYSQL_HOST')
     MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
-    MYSQL_PORT = os.getenv('PORT')
-    MYSQL_TZ = os.getenv('TZ')
+    MYSQL_PORT = os.getenv('MYSQL_PORT')
+    MYSQL_TZ = os.getenv('MYSQL_TZ')
