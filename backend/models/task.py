@@ -25,6 +25,8 @@ class Task(BaseModel):
     start_date: date
     finish_date: date
     is_check: bool
+    created_at: datetime
+    updated_at: datetime
 
     class Config:
         orm_mode = True
