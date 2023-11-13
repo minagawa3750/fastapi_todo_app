@@ -6,9 +6,9 @@ from pydantic import BaseModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Text, Boolean, Date, DateTime
 
 class TaskOrm(Base):
-    __tablename__ = 'task'
+    __tablename__ = 'tasks'
     id = Column(Integer, primary_key=True, nullable=False, index=True)
-    user_id = Column(Integer, ForeignKey("user.id", name="task_user_id_fkey", nullable=True, ondelete="CASCADE"))
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
     title = Column(String(100), nullable=False)
     memo = Column(Text(1000), nullable=True)
     start_date = Column(Date, nullable=False)

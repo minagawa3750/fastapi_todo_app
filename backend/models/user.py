@@ -6,7 +6,7 @@ from sqlalchemy import Column, Integer, String, DateTime
 
 
 class UserOrm(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     id = Column(Integer, primary_key=True, nullable=False, index=True)
     name = Column(String(100), nullable=False)
     email = Column(String(254), nullable=False, unique=True)

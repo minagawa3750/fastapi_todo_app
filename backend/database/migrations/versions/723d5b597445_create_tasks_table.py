@@ -20,9 +20,9 @@ depends_on: Union[str, Sequence[str], None] = None
 
 def upgrade() -> None:
     op.create_table(
-        'task',
+        'tasks',
         sa.Column('id', sa.Integer(), nullable=False),
-        sa.Column('user_id', sa.Integer(), sa.ForeignKey('user.id', name="task_user_id_fkey", ondelete="CASCADE"), nullable=True),
+        sa.Column('user_id', sa.Integer(), sa.ForeignKey('users.id', name="tasks_user_id_fkey", ondelete="CASCADE"), nullable=True),
         sa.Column('title', sa.String(length=100), nullable=False),
         sa.Column('memo', sa.Text(length=1000), nullable=True),
         sa.Column('start_date', sa.Date(), nullable=False),
@@ -35,7 +35,7 @@ def upgrade() -> None:
 
 
 def downgrade() -> None:
-    with op.batch_alter_table('task') as batch_op:
-        batch_op.drop_constraint('task_user_id_fkey', type_='foreignkey')
+    with op.batch_alter_table('tasks') as batch_op:
+        batch_op.drop_constraint('tasks_user_id_fkey', type_='foreignkey')
 
-    op.drop_table('task')
+    op.drop_table('tasks')
