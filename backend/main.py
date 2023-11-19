@@ -1,8 +1,7 @@
-from fastapi import FastAPI,Request
+from fastapi import FastAPI
+from handlers import task, test
 
 app = FastAPI()
 
-@app.get("/")
-async def root(request:Request):
-    print(request.headers)
-    return {"message": "Hello World"}
+app.include_router(task.router)
+app.include_router(test.router)
