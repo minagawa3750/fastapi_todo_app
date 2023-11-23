@@ -3,7 +3,7 @@ import logging
 from fastapi import APIRouter, Depends, HTTPException
 from typing import Annotated
 from models.task import Task
-from repositories.task import TaskRepository
+from repositories.task import TaskRepository, TaskCreate, TaskUpdate
 from settings.database import SessionLocal
 
 router = APIRouter()
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 # タスクの新規作成
 @router.post("/new_task")
-def create_task(task: Task, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
+def create_task(task: TaskCreate, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
     try:
         with SessionLocal.begin() as db:
             task_repo.create_task(db, task.title, task.memo, task.start_date, task.finish_date)
@@ -28,8 +28,8 @@ def get_task(id: int, task_repo: Annotated[TaskRepository, Depends(TaskRepositor
         raise HTTPException(status_code=500, detail=str(e))
 
 # タスクの更新処理
-@router.put("/task/update/{id}")
-def update_task(task: Task, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
+@router.put("/task/{id}")
+def update_task(task: TaskUpdate, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
     try:
         with SessionLocal.begin() as db:
             task_repo.update_task(db, task.id, task.title, task.memo, 

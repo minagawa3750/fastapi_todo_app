@@ -1,6 +1,21 @@
 from datetime import date
 from sqlalchemy.orm import Session
 from models.task import TaskOrm, Task
+from pydantic import BaseModel
+
+class TaskCreate(BaseModel):
+    title: str
+    memo: str
+    start_date: date
+    finish_date: date
+
+class TaskUpdate(BaseModel):
+    id: int
+    title: str
+    memo: str
+    start_date: date
+    finish_date: date
+    is_check: bool
 
 class TaskRepository:
     # タスクの新規作成
@@ -11,7 +26,7 @@ class TaskRepository:
             memo: str, 
             start_date: date, 
             finish_date: date
-        ) -> Task:
+        ) -> TaskCreate:
         task = TaskOrm (
             title = title,
             memo = memo,
@@ -22,7 +37,7 @@ class TaskRepository:
         db.flush()
     
     # タスクの詳細取得
-    def get_task_by_id(self, db: Session, id: int) -> Task:
+    def get_task_by_id(self, db: Session, id: int):
         task = db.query(TaskOrm).filter(TaskOrm.id == id).first()
         if task is None:
             raise ValueError("Task is None")
@@ -39,17 +54,17 @@ class TaskRepository:
             start_date: date,
             finish_date: date,
             is_check: bool
-        ) -> Task:
+        ) -> TaskUpdate:
 
         task = db.query(TaskOrm).filter(TaskOrm.id == id).first()
 
         if task is None:
             raise ValueError("Task is None")
 
-        task.title = title,
-        task.memo = memo,
-        task.start_date = start_date,
-        task.finish_date = finish_date,
+        task.title = title
+        task.memo = memo
+        task.start_date = start_date
+        task.finish_date = finish_date
         task.is_check = is_check
 
         db.flush()
