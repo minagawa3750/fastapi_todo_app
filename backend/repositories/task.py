@@ -7,14 +7,12 @@ class TaskRepository:
     def create_task(
             self, 
             db: Session, 
-            user_id: int, 
             title: str, 
             memo: str, 
             start_date: date, 
             finish_date: date
         ) -> Task:
         task = TaskOrm (
-            user_id = user_id,
             title = title,
             memo = memo,
             start_date = start_date,

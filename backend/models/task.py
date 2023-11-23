@@ -2,8 +2,10 @@ from datetime import date, datetime
 
 from settings.database import Base
 from typing import Optional
+from models.user import UserOrm
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Text, Boolean, Date, DateTime
+from sqlalchemy.orm import relationship
 
 class TaskOrm(Base):
     __tablename__ = 'tasks'
@@ -14,12 +16,17 @@ class TaskOrm(Base):
     start_date = Column(Date(), nullable=False)
     finish_date = Column(Date(), nullable=False)
     is_check = Column(Boolean(), default=False, nullable=False)
-    created_at = Column(DateTime(), default=datetime.now(), nullable=False)
-    updated_at = Column(DateTime(), default=datetime.now(), onupdate=datetime.now(), nullable=False)
+    created_at = Column(DateTime(timezone=True), default=datetime.now())
+    updated_at = Column(
+        DateTime(timezone=True), 
+        default=datetime.now(), 
+        onupdate=datetime.now()
+    )
+
+    user = relationship("UserOrm", back_populates="task")
 
 class Task(BaseModel):
     id: int
-    user_id: Optional[int]
     title: str
     memo: Optional[str]
     start_date: date
