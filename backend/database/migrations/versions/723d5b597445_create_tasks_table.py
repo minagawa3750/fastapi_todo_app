@@ -27,7 +27,7 @@ def upgrade() -> None:
         sa.Column('memo', sa.Text(length=1000), nullable=True),
         sa.Column('start_date', sa.Date(), nullable=False),
         sa.Column('finish_date', sa.Date(), nullable=False),
-        sa.Column('is_check', sa.Boolean(), nullable=False, default=False),
+        sa.Column('is_check', sa.Boolean(), default=False),
         sa.Column('created_at', sa.DateTime(), nullable=False),
         sa.Column('updated_at', sa.DateTime(), nullable=False),
         sa.PrimaryKeyConstraint('id'),
