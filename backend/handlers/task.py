@@ -18,6 +18,15 @@ def create_task(task: TaskCreate, task_repo: Annotated[TaskRepository, Depends(T
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+# タスクの一覧取得
+@router.get("/tasks")
+def get_tasks(task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
+    try:
+        with SessionLocal() as db:
+            return task_repo.get_tasks(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 # タスクの詳細取得
 @router.get("/task/{id}", response_model=Task)
 def get_task(id: int, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
@@ -34,5 +43,14 @@ def update_task(task: TaskUpdate, task_repo: Annotated[TaskRepository, Depends(T
         with SessionLocal.begin() as db:
             task_repo.update_task(db, task.id, task.title, task.memo, 
                                     task.start_date, task.finish_date, task.is_check)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# タスクの削除処理
+@router.delete("/task/{id}")
+def delete_task(id: int, task_repo: Annotated[TaskRepository, Depends(TaskRepository)]):
+    try:
+        with SessionLocal.begin() as db:
+            task_repo.delete_task(db, id)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

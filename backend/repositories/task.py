@@ -35,6 +35,12 @@ class TaskRepository:
         )
         db.add(task)
         db.flush()
+
+        return task
+
+    # タスクの一覧取得
+    def get_tasks(self, db: Session) -> Task:
+        return db.query(TaskOrm).all()
     
     # タスクの詳細取得
     def get_task_by_id(self, db: Session, id: int):
@@ -68,3 +74,15 @@ class TaskRepository:
         task.is_check = is_check
 
         db.flush()
+
+        return task
+
+    # タスクの削除処理
+    def delete_task(self, db: Session, id: int):
+        task = db.query(TaskOrm).filter(TaskOrm.id == id).first()
+
+        if task:
+            db.delete(task)
+            db.flush
+        else:
+            raise ValueError("Task is None")
