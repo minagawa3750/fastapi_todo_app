@@ -43,7 +43,7 @@ class TaskRepository:
         return db.query(TaskOrm).all()
     
     # タスクの詳細取得
-    def get_task_by_id(self, db: Session, id: int):
+    def get_task_details(self, db: Session, id: int):
         task = db.query(TaskOrm).filter(TaskOrm.id == id).first()
         if task is None:
             raise ValueError("Task is None")
