@@ -11,11 +11,8 @@ class TaskOrm(Base):
     __tablename__ = 'tasks'
     id = Column(Integer(), primary_key=True, nullable=False, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=True)
-    title = Column(String(100), nullable=False)
-    memo = Column(Text(1000), nullable=True)
-    start_date = Column(Date(), nullable=False)
-    finish_date = Column(Date(), nullable=False)
-    is_check = Column(Boolean(), default=False, nullable=False)
+    todo = Column(String(100), nullable=False)
+    is_check = Column(Boolean(), default=False)
     created_at = Column(DateTime(timezone=True), default=datetime.now())
     updated_at = Column(
         DateTime(timezone=True), 
@@ -27,10 +24,7 @@ class TaskOrm(Base):
 
 class Task(BaseModel):
     id: int
-    title: str
-    memo: Optional[str]
-    start_date: date
-    finish_date: date
+    todo: str
     is_check: bool
     created_at: datetime
     updated_at: datetime
