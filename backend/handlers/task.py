@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 def create_task(task: TaskCreate, task_usecase: CreateTaskUsecase = Depends(CreateTaskUsecase)):
     try:
         with SessionLocal.begin() as db:
-            task_usecase.create_task(db, task.title, task.memo, task.start_date, task.finish_date)
+            task_usecase.create_task(db, task.todo)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -45,8 +45,7 @@ def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetai
 def update_task(task: TaskUpdate, task_usecase: UpdateTasksUsecase = Depends(UpdateTasksUsecase)):
     try:
         with SessionLocal.begin() as db:
-            task_usecase.update_task(db, task.id, task.title, task.memo, 
-                                    task.start_date, task.finish_date, task.is_check)
+            task_usecase.update_task(db, task.id, task.is_check)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

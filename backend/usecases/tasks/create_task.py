@@ -7,11 +7,5 @@ class CreateTaskUsecase:
     def  __init__(self, task_repo: TaskRepository = Depends(TaskRepository)):
         self.task_repo = task_repo
     
-    def create_task(
-            self, 
-            db: Session, 
-            title: str, 
-            memo: str, 
-            start_date: date, 
-            finish_date: date):
-        self.task_repo.create_task(db, title, memo, start_date, finish_date)
+    def create_task(self, db: Session, todo: str):
+        self.task_repo.create_task(db, todo)
