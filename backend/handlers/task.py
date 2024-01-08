@@ -5,6 +5,8 @@ from models.task import Task
 from repositories.task import TaskCreate, TaskUpdate
 from usecases.tasks.create_task import CreateTaskUsecase
 from usecases.tasks.get_tasks import GetTasksUsecase
+from usecases.tasks.get_incomplete_tasks import GetIncompleteTasksUsecase
+from usecases.tasks.get_complete_tasks import GetCompleteTasksUsecase
 from usecases.tasks.get_task_details import GetTaskDetailsUsecase
 from usecases.tasks.update_task import UpdateTasksUsecase
 from usecases.tasks.delete_task import DeleteTaskUsecase
@@ -28,6 +30,24 @@ def get_tasks(task_usecase: GetTasksUsecase = Depends(GetTasksUsecase)):
     try:
         with SessionLocal() as db:
             return task_usecase.get_tasks(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 未完了タスクの一覧取得
+@router.get("/tasks/incomplete")
+def get_tasks(task_usecase: GetIncompleteTasksUsecase = Depends(GetIncompleteTasksUsecase)):
+    try:
+        with SessionLocal() as db:
+            return task_usecase.get_incomplete_tasks(db)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# 完了タスクの一覧取得
+@router.get("/tasks/complete")
+def get_tasks(task_usecase: GetCompleteTasksUsecase = Depends(GetCompleteTasksUsecase)):
+    try:
+        with SessionLocal() as db:
+            return task_usecase.get_complete_tasks(db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
