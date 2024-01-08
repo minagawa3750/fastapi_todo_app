@@ -1,13 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputTodo } from "./components/InputTodo";
 import { IncompleteTodos } from "./components/IncompleteTodos";
 import "./style.css";
 import { CompleteTodos } from "./components/CompleteTodos";
+import axios from 'axios'
 
 export const Todo = () => {
     const [todoText, setTodoText] = useState("");
     const [incompleteTodos, setIncompleteTodos] = useState([]);
     const [completeTodos, setcompleteTodos] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchIncompleteTodos = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/tasks/incomplete');
+            setIncompleteTodos(response.data);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error while fetching incomplete todos:', error);
+            setIsLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchIncompleteTodos();
+    }, []);
 
     const onChangeTodoText = (event) => setTodoText(event.target.value);
 
