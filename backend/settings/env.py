@@ -12,3 +12,6 @@ class Env:
     MYSQL_DATABASE = os.getenv('MYSQL_DATABASE')
     MYSQL_PORT = os.getenv('MYSQL_PORT')
     MYSQL_TZ = os.getenv('MYSQL_TZ')
+
+    # フロントURL
+    APP_URL = os.getenv('APP_URL')
