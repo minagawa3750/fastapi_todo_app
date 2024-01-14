@@ -15,8 +15,7 @@ from settings.database import SessionLocal
 router = APIRouter()
 logger = logging.getLogger(__name__)
 
-# タスクの新規作成
-@router.post("/new_task")
+@router.post("/new_task", summary="タスクの新規作成", tags=['task'])
 def create_task(task: TaskCreate, task_usecase: CreateTaskUsecase = Depends(CreateTaskUsecase)):
     try:
         with SessionLocal.begin() as db:
@@ -24,8 +23,7 @@ def create_task(task: TaskCreate, task_usecase: CreateTaskUsecase = Depends(Crea
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# タスクの一覧取得
-@router.get("/tasks")
+@router.get("/tasks", summary="タスクの一覧取得", tags=['task'])
 def get_tasks(task_usecase: GetTasksUsecase = Depends(GetTasksUsecase)):
     try:
         with SessionLocal() as db:
@@ -33,8 +31,7 @@ def get_tasks(task_usecase: GetTasksUsecase = Depends(GetTasksUsecase)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# 未完了タスクの一覧取得
-@router.get("/tasks/incomplete")
+@router.get("/tasks/incomplete", summary="未完了タスクの一覧取得", tags=['task'])
 def get_tasks(task_usecase: GetIncompleteTasksUsecase = Depends(GetIncompleteTasksUsecase)):
     try:
         with SessionLocal() as db:
@@ -42,8 +39,7 @@ def get_tasks(task_usecase: GetIncompleteTasksUsecase = Depends(GetIncompleteTas
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# 完了タスクの一覧取得
-@router.get("/tasks/complete")
+@router.get("/tasks/complete", summary="完了タスクの一覧取得", tags=['task'])
 def get_tasks(task_usecase: GetCompleteTasksUsecase = Depends(GetCompleteTasksUsecase)):
     try:
         with SessionLocal() as db:
@@ -51,8 +47,7 @@ def get_tasks(task_usecase: GetCompleteTasksUsecase = Depends(GetCompleteTasksUs
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# タスクの詳細取得
-@router.get("/task/{id}", response_model=Task)
+@router.get("/task/{id}", summary="タスクの詳細取得", response_model=Task, tags=['task'])
 def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetailsUsecase)):
     try:
         with SessionLocal() as db:
@@ -60,8 +55,7 @@ def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetai
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# タスクの更新処理
-@router.put("/task/{id}")
+@router.put("/task/{id}", summary="タスクの更新処理", tags=['task'])
 def update_task(task: TaskUpdate, task_usecase: UpdateTasksUsecase = Depends(UpdateTasksUsecase)):
     try:
         with SessionLocal.begin() as db:
@@ -69,8 +63,7 @@ def update_task(task: TaskUpdate, task_usecase: UpdateTasksUsecase = Depends(Upd
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-# タスクの削除処理
-@router.delete("/task/{id}")
+@router.delete("/task/{id}", summary="タスクの削除処理", tags=['task'])
 def delete_task(id: int, task_usecase: DeleteTaskUsecase = Depends(DeleteTaskUsecase)):
     try:
         with SessionLocal.begin() as db:
