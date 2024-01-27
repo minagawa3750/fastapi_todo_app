@@ -1,7 +1,7 @@
 from datetime import date, datetime
 
 from settings.database import Base
-from typing import Optional
+from typing import Optional, List
 from models.user import UserOrm
 from pydantic import BaseModel
 from sqlalchemy import Column, Integer, ForeignKey, String, Text, Boolean, Date, DateTime
@@ -31,3 +31,14 @@ class Task(BaseModel):
 
     class Config:
         orm_mode = True
+
+class TaskList(BaseModel):
+    completed_tasks: List[Task]
+    incompleted_tasks: List[Task]
+
+class TaskCreate(BaseModel):
+    todo: str
+
+class TaskUpdate(BaseModel):
+    id: int
+    is_check: bool

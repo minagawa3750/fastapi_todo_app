@@ -5,8 +5,6 @@ from models.task import Task
 from repositories.task import TaskCreate, TaskUpdate
 from usecases.tasks.create_task import CreateTaskUsecase
 from usecases.tasks.get_tasks import GetTasksUsecase
-from usecases.tasks.get_incomplete_tasks import GetIncompleteTasksUsecase
-from usecases.tasks.get_complete_tasks import GetCompleteTasksUsecase
 from usecases.tasks.get_task_details import GetTaskDetailsUsecase
 from usecases.tasks.update_task import UpdateTasksUsecase
 from usecases.tasks.delete_task import DeleteTaskUsecase
@@ -31,22 +29,6 @@ def get_tasks(task_usecase: GetTasksUsecase = Depends(GetTasksUsecase)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.get("/tasks/incomplete", summary="未完了タスクの一覧取得", tags=['task'])
-def get_tasks(task_usecase: GetIncompleteTasksUsecase = Depends(GetIncompleteTasksUsecase)):
-    try:
-        with SessionLocal() as db:
-            return task_usecase.get_incomplete_tasks(db)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@router.get("/tasks/complete", summary="完了タスクの一覧取得", tags=['task'])
-def get_tasks(task_usecase: GetCompleteTasksUsecase = Depends(GetCompleteTasksUsecase)):
-    try:
-        with SessionLocal() as db:
-            return task_usecase.get_complete_tasks(db)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
 @router.get("/task/{id}", summary="タスクの詳細取得", response_model=Task, tags=['task'])
 def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetailsUsecase)):
     try:
@@ -59,7 +41,8 @@ def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetai
 def update_task(task: TaskUpdate, task_usecase: UpdateTasksUsecase = Depends(UpdateTasksUsecase)):
     try:
         with SessionLocal.begin() as db:
-            task_usecase.update_task(db, task.id, task.is_check)
+            tasks = task_usecase.update_task(db, task.id, task.is_check)
+            print(f"なんでとおらないんだよぉぉぉぉぉおぉっぉぉｘ{tasks}")
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
