@@ -7,6 +7,8 @@ from sqlalchemy import Column, Integer, String, Boolean, DateTime
 
 class TaskOrm(Base):
     __tablename__ = 'task'
+    __table_args__ = {'comment': 'タスクを管理するテーブル'} 
+
     id = Column(Integer(), primary_key=True, nullable=False, index=True, comment='タスクのID')
     todo = Column(String(100), nullable=False, comment='やること')
     is_check = Column(Boolean(), default=False, comment='タスク完了、未完了フラグ')
@@ -32,9 +34,18 @@ class TaskList(BaseModel):
     completed_tasks: List[Task]
     incompleted_tasks: List[Task]
 
+    class Config:
+        orm_mode = True
+
 class TaskCreate(BaseModel):
     todo: str
+
+    class Config:
+        orm_mode = True
 
 class TaskUpdate(BaseModel):
     id: int
     is_check: bool
+
+    class Config:
+        orm_mode = True
