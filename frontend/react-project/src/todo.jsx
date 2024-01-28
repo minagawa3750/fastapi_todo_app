@@ -1,45 +1,84 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { InputTodo } from "./components/InputTodo";
 import { IncompleteTodos } from "./components/IncompleteTodos";
 import "./style.css";
 import { CompleteTodos } from "./components/CompleteTodos";
+import axios from 'axios'
 
 export const Todo = () => {
     const [todoText, setTodoText] = useState("");
     const [incompleteTodos, setIncompleteTodos] = useState([]);
     const [completeTodos, setcompleteTodos] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    const fetchTasks = async () => {
+        try {
+            const response = await axios.get('http://localhost:8080/tasks');
+            setIncompleteTodos(response.data.incompleted_tasks);
+            setcompleteTodos(response.data.completed_tasks);
+            setIsLoading(false);
+        } catch (error) {
+            console.error('Error while fetching complete todos:', error);
+        }
+    };
+    
+    useEffect(() => {
+        fetchTasks();
+    }, []);
 
     const onChangeTodoText = (event) => setTodoText(event.target.value);
-
-    const onClickAdd = () => {
+    
+    const onClickAdd = async() => {
         if (todoText == "") return;
-        const newTodos = [...incompleteTodos, todoText];
-        setIncompleteTodos(newTodos);
-        setTodoText("");
+
+        try {
+            await axios.post('http://localhost:8080/new_task', { todo: todoText });
+            setTodoText("");
+            fetchTasks();
+            
+        } catch (error) {
+            console.error('Error while adding a new todo:', error);
+        }
     };
 
-    const onClickDelete = (index) => {
-        const newTodos = [...incompleteTodos];
-        newTodos.splice(index, 1);
-        setIncompleteTodos(newTodos);
+    const onClickDelete = async(index) => {
+        const deleteTask = incompleteTodos[index];
+        try {
+            await axios.delete(`http://localhost:8080/task/${deleteTask.id}`);
+            fetchTasks();
+        } catch (error) {
+            console.error('Error while deleting the todo:', error);
+        }
     };
 
-    const onClickComplete = (index) => {
-        const newInCompleteTodos = [...incompleteTodos];
-        newInCompleteTodos.splice(index, 1);
+    const onClickComplete = async (index) => {
+        const completeTask = incompleteTodos[index];
+        try {
+            await axios.put(`http://localhost:8080/task/${completeTask.id}`,
+            { 
+                id: completeTask.id,
+                is_check: true
+            });
 
-        const newCompleteTodos = [...completeTodos, incompleteTodos[index]];
-        setIncompleteTodos(newInCompleteTodos);
-        setcompleteTodos(newCompleteTodos);
+            fetchTasks();
+        } catch (error) {
+            console.error('Error while completing todo:', error);
+        }
     };
 
-    const onClickBack = (index) => {
-        const newCompleteTodos = [...completeTodos];
-        newCompleteTodos.splice(index, 1);
+    const onClickBack = async(index) => {
+        const inCompleteTask = completeTodos[index];
+        try {
+            await axios.put(`http://localhost:8080/task/${inCompleteTask.id}`,
+            { 
+                id: inCompleteTask.id,
+                is_check: false
+            });
 
-        const newInCompleteTodos = [...incompleteTodos, completeTodos[index]];
-        setcompleteTodos(newCompleteTodos);
-        setIncompleteTodos(newInCompleteTodos);
+            fetchTasks();
+        } catch (error) {
+            console.error('Error while completing todo:', error);
+        }
     };
 
     const isMaxLimitIncompleteTodos = incompleteTodos.length >= 5;
