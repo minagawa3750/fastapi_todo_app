@@ -41,8 +41,7 @@ def get_task(id: int, task_usecase: GetTaskDetailsUsecase = Depends(GetTaskDetai
 def update_task(task: TaskUpdate, task_usecase: UpdateTasksUsecase = Depends(UpdateTasksUsecase)):
     try:
         with SessionLocal.begin() as db:
-            tasks = task_usecase.update_task(db, task.id, task.is_check)
-            print(f"なんでとおらないんだよぉぉぉぉぉおぉっぉぉｘ{tasks}")
+            task_usecase.update_task(db, task.id, task.is_check)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

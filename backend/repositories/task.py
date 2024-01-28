@@ -1,14 +1,9 @@
-from datetime import date
 from sqlalchemy.orm import Session
 from models.task import TaskOrm, Task, TaskCreate, TaskUpdate
 
 class TaskRepository:
     # タスクの新規作成
-    def create_task(
-            self, 
-            db: Session, 
-            todo: str, 
-        ) -> TaskCreate:
+    def create_task(self, db: Session, todo: str) -> TaskCreate:
         task = TaskOrm (
             todo = todo,
         )
@@ -30,13 +25,7 @@ class TaskRepository:
         return task
 
     # タスクの更新処理
-    def update_task(
-            self,
-            db: Session,
-            id: int,
-            is_check: bool
-        ) -> TaskUpdate:
-
+    def update_task(self, db: Session, id: int, is_check: bool) -> TaskUpdate:
         task = db.query(TaskOrm).filter(TaskOrm.id == id).first()
 
         if task is None:
